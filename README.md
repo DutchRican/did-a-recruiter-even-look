@@ -1,4 +1,4 @@
-# bun-react-tailwind-shadcn-template
+# Did a recruiter look at your email?
 
 To install dependencies:
 
@@ -18,4 +18,5 @@ To run for production:
 bun start
 ```
 
-This project was created using `bun init` in bun v1.3.8. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+## Application to check and see with the help of ChromeAI ( built-in ) or Ollama
+Just paste the email body 

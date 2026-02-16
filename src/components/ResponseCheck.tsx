@@ -28,7 +28,7 @@ export default function ResponseCheck() {
     }
   };
   return (
-    <>
+    <div className="flex-1">
       <h1 className="text-center text-4xl font-bold pb-4">Did a recruiter actually read your application?</h1>
       <Card className="mt-4 shadow-xl">
         <CardHeader className="gap-4">
@@ -47,6 +47,6 @@ export default function ResponseCheck() {
       <Activity mode={result ? 'visible' : 'hidden'}>
         <LLMResponse {...result} />
       </Activity>
-    </>
+    </div>
   );
 }
