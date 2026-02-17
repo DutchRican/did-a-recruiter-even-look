@@ -3,9 +3,6 @@ import index from "./index.html";
 
 const server = serve({
   routes: {
-    // Serve index.html for all unmatched routes.
-    "/*": index,
-
     "/api/tags": {
       async GET(req) {
         const response = await fetch(req.headers.get('target')!, {
@@ -43,6 +40,9 @@ const server = serve({
           body: req.body})
       }
     },
+
+    // Serve index.html for all unmatched routes (must be last).
+    "/*": index,
   },
 
   development: process.env.NODE_ENV !== "production" && {
