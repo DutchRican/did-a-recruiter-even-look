@@ -21,11 +21,11 @@ function Body({ onClose, children, ...props }:  { onClose: () => void, children:
   );
 };
 
-function Header({ title, onClose }: { title: string, onClose: () => void }) {
+function Header({ title, onClose, canClose }: { title: string, onClose: () => void, canClose: boolean }) {
   return (
     <div className='flex flex-row justify-between items-center'>
       <span className='font-bold text-xl'>{title}</span>
-      <LucideCircleX onClick={onClose} className='self-end' />
+      {canClose && <LucideCircleX onClick={onClose} className='self-end' />}
     </div>
   );
 }

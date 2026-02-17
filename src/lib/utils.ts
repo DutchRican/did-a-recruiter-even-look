@@ -37,7 +37,7 @@ export function isFirstLoad() {
 
 export async function getOllamaModels(ollamaUrl: string) {
   try {
-  const response = await fetch(`${ollamaUrl}/api/tags`);
+  const response = await fetch('api/tags', {headers: {target: `${ollamaUrl}/api/tags`}});
   const body = await response.json();
   return body.models.map((m: {name: string}) => m.name);
   } catch (err: any) {

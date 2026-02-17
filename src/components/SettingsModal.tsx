@@ -9,7 +9,7 @@ import AsyncSelect from "./AsyncSelect";
 import { useMain } from "@/context/MainContext";
 import { messageMap } from "@/types";
 
-export default function SettingsModal({ closeAction }: { closeAction: () => void }) {
+export default function SettingsModal({ closeAction, canClose }: { closeAction: () => void, canClose: boolean }) {
     const [downloadAI, setDownloadAI] = useState(false);
     const [selectedLLM, setselectedLLM] = useState<'chrome_ai' | 'ollama' | ''>('');
     const settings = useMemo(() => getLocalStorageSettings(), []);
@@ -21,8 +21,7 @@ export default function SettingsModal({ closeAction }: { closeAction: () => void
         setselectedLLM(settings.llmType);
         setOllamaUrl(settings.ollamaUrl || defaultOllamaUrl);
         setSelectedModel(settings.model);
-   
-        if (!chromeErrors && isDownloading) setDownloadAI(true);
+        if (!chromeErrors && status ==='downloadable') setDownloadAI(true);
     }, []);
 
     const settingsChanged = useCallback(() => {
@@ -44,7 +43,7 @@ export default function SettingsModal({ closeAction }: { closeAction: () => void
 
     return (
         <Modal.Body onClose={closeAction}>
-            <Modal.Header title="Settings" onClose={closeAction} />
+            <Modal.Header title="Settings" onClose={closeAction} canClose={canClose} />
             <Modal.Content>
                 <div className="flex flex-col">
                     <RadioGroup value={selectedLLM} onValueChange={(v) => { setselectedLLM(v as 'ollama' | 'chrome_ai') }} className="w-fit">
@@ -68,8 +67,8 @@ export default function SettingsModal({ closeAction }: { closeAction: () => void
             </Modal.Content>
             <Modal.Footer>
                 {settingsChanged() && isOllamaAndHasUrl() && <Button variant={'outline'} onClick={updateSettings}>Save</Button>}
-                <Button variant={'outline'} onClick={closeAction}>Close</Button>
-                {downloadAI && status !== 'downloading' &&<Button onClick={downloadLLM} variant={'outline'} className="pl-2">Click here to download the Chrome AI model</Button>}
+                <Button variant={'outline'} onClick={closeAction} disabled={!canClose}>Close</Button>
+                {downloadAI && <Button onClick={downloadLLM} variant={'outline'} className="pl-2">Click here to download the Chrome AI model</Button>}
             </Modal.Footer>
         </Modal.Body>
     )

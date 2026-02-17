@@ -6,26 +6,42 @@ const server = serve({
     // Serve index.html for all unmatched routes.
     "/*": index,
 
-    "/api/hello": {
+    "/api/tags": {
       async GET(req) {
-        return Response.json({
-          message: "Hello, World!",
-          method: "GET",
+        const response = await fetch(req.headers.get('target')!, {
+          headers: req.headers,
+        });
+        
+        // Add CORS headers to the response
+        const headers = new Headers(response.headers);
+        headers.set('Access-Control-Allow-Origin', '*');
+        headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        
+        return new Response(response.body, {
+          status: response.status,
+          headers,
         });
       },
-      async PUT(req) {
-        return Response.json({
-          message: "Hello, world!",
-          method: "PUT",
+      async OPTIONS(req) {
+        return new Response(null, {
+          status: 204,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization, target',
+            'Access-Control-Max-Age': '86400',
+          },
         });
       },
     },
 
-    "/api/hello/:name": async req => {
-      const name = req.params.name;
-      return Response.json({
-        message: `Hello, ${name}!`,
-      });
+    "/api/chat": {
+      async POST(req) {
+        return fetch(req.headers.get('target')!, {
+          method: 'POST',
+          headers: req.headers,
+          body: req.body})
+      }
     },
   },
 

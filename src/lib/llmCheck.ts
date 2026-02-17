@@ -65,10 +65,11 @@ const generateResponse = async (body: string, settings: SettingsType) => {
                 response = response.replace('```json', '').replace('```', '').trim();
                 return JSON.parse(response);
             case 'ollama':
-                const resp = await fetch(`${settings.ollamaUrl}/api/chat`, {
+                const resp = await fetch('api/chat', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'target': `${settings.ollamaUrl}/api/chat`
                     },
                     body: JSON.stringify({
                         model: settings.model,

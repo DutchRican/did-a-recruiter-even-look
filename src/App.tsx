@@ -20,8 +20,8 @@ export function App() {
     <MainProvider >
     <div className="min-h-screen mx-auto p-8  xl:w-5xl lg:w-4xl md:w-3xl sm:w-2xl flex flex-col">
       <Settings clickHandler={() => setShowModal((prev) => !prev)}/>
-      {showModal && <SettingsModal closeAction={() => setShowModal(false)} />}
-        <ResponseCheck />
+      {showModal && <SettingsModal canClose={!isFirstLoad()} closeAction={() => setShowModal(false)} />}
+        <ResponseCheck/>
       <Toaster richColors/>
     <Footer />
     </div>
